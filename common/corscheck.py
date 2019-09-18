@@ -67,7 +67,23 @@ class CORSCheck:
 
         if resp_headers == None:
             return -1
-        
+
+        """----以下是我加的分割线----"""
+        if resp_headers.get("access-control-allow-origin") == "*":
+            credentials = "false"
+            if resp_headers.get("access-control-allow-credentials") == "true":
+                credentials = "true"
+
+            msg = {
+                "url": test_url,
+                "type": "test_allow_any_origin",
+                "credentials": "false",
+                "origin": test_origin,
+                "status_code" : status_code
+            }
+            return msg
+        """----以上是我加的分割线----"""
+
         parsed = urlparse(str(resp_headers.get("access-control-allow-origin")))
         resp_origin = parsed.scheme + "://" + parsed.netloc.split(':')[0]
 
